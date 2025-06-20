@@ -12,9 +12,6 @@ This interface declares one method: open().
 
 All types of documents (Word, PDF, Excel) will implement this interface and define their own way of opening.
 
-java
-Copy
-Edit
 public interface Document {
     void open();
 }
@@ -28,9 +25,6 @@ Each of these classes will implement the Document interface.
 
 Inside each class, define the open() method to display a different message.
 
-java
-Copy
-Edit
 public class WordDocument implements Document {
     public void open() {
         System.out.println("Opening Word Document");
@@ -47,9 +41,6 @@ This class will have a method called createDocument() which is abstract (no body
 
 The purpose of this method is to be overridden by subclasses (factories for Word, PDF, Excel).
 
-java
-Copy
-Edit
 public abstract class DocumentFactory {
     public abstract Document createDocument();
 }
@@ -69,9 +60,6 @@ Each of these classes will extend DocumentFactory and implement the createDocume
 
 Inside createDocument(), return a new object of the specific document type.
 
-java
-Copy
-Edit
 public class WordDocumentFactory extends DocumentFactory {
     public Document createDocument() {
         return new WordDocument();
@@ -87,22 +75,20 @@ For each type (Word, PDF, Excel), create the respective factory and use it to ge
 
 Then call the open() method to see the result.
 
-java
-Copy
-Edit
+
 public class Main {
     public static void main(String[] args) {
         DocumentFactory wordFactory = new WordDocumentFactory();
         Document doc1 = wordFactory.createDocument();
-        doc1.open();  // Output: Opening Word Document
+        doc1.open(); 
 
         DocumentFactory pdfFactory = new PdfDocumentFactory();
         Document doc2 = pdfFactory.createDocument();
-        doc2.open();  // Output: Opening PDF Document
+        doc2.open();  
 
         DocumentFactory excelFactory = new ExcelDocumentFactory();
         Document doc3 = excelFactory.createDocument();
-        doc3.open();  // Output: Opening Excel Document
+        doc3.open();  
     }
 }
 
