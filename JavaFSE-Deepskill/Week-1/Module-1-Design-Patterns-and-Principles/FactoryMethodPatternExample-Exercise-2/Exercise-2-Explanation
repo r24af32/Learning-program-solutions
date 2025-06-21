@@ -1,0 +1,103 @@
+Exercise 2: Implementing the Factory Method Pattern – Explanation
+
+
+Step 1: Create a New Java Project
+Start by creating a new Java project and name it FactoryMethodPatternExample.
+
+This is where all your interface, classes, and main program will be written.
+
+
+
+Step 2: Define a Common Interface for Documents
+Create an interface named Document.
+
+This interface declares one method: open().
+
+All types of documents (Word, PDF, Excel) will implement this interface and define their own way of opening.
+
+public interface Document {
+    void open();
+}
+
+
+
+Step 3: Create Concrete Classes for Each Document Type
+Create three classes: WordDocument, PdfDocument, and ExcelDocument.
+
+Each of these classes will implement the Document interface.
+
+Inside each class, define the open() method to display a different message.
+
+public class WordDocument implements Document {
+    public void open() {
+        System.out.println("Opening Word Document");
+    }
+}
+Do the same for PDF and Excel documents by changing the class name and print message.
+
+
+
+Step 4: Create an Abstract Factory Class
+Create an abstract class named DocumentFactory.
+
+This class will have a method called createDocument() which is abstract (no body).
+
+The purpose of this method is to be overridden by subclasses (factories for Word, PDF, Excel).
+
+public abstract class DocumentFactory {
+    public abstract Document createDocument();
+}
+
+
+
+Step 5: Create Factory Classes for Each Document Type
+Now create separate classes for each document type:
+
+WordDocumentFactory
+
+PdfDocumentFactory
+
+ExcelDocumentFactory
+
+Each of these classes will extend DocumentFactory and implement the createDocument() method.
+
+Inside createDocument(), return a new object of the specific document type.
+
+public class WordDocumentFactory extends DocumentFactory {
+    public Document createDocument() {
+        return new WordDocument();
+    }
+}
+
+
+
+Step 6: Test the Factory Method Implementation
+Create a class named Main to test how the factories work.
+
+For each type (Word, PDF, Excel), create the respective factory and use it to get the document object.
+
+Then call the open() method to see the result.
+
+public class Main {
+    public static void main(String[] args) {
+        DocumentFactory wordFactory = new WordDocumentFactory();
+        Document doc1 = wordFactory.createDocument();
+        doc1.open();  // Output: Opening Word Document
+
+        DocumentFactory pdfFactory = new PdfDocumentFactory();
+        Document doc2 = pdfFactory.createDocument();
+        doc2.open();  // Output: Opening PDF Document
+
+        DocumentFactory excelFactory = new ExcelDocumentFactory();
+        Document doc3 = excelFactory.createDocument();
+        doc3.open();  // Output: Opening Excel Document
+    }
+}
+
+
+
+Output:
+
+Opening Word Document
+Opening PDF Document
+Opening Excel Document
