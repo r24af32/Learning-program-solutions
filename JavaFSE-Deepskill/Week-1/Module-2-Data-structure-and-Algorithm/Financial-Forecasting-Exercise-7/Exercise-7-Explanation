@@ -1,0 +1,91 @@
+Exercise 7: Financial Forecasting – Step-by-Step Explanation
+
+
+Step 1: Understand Recursive Algorithms
+What is Recursion?
+Recursion is a programming technique where a function calls itself.
+
+It is useful for problems that can be broken into smaller, repetitive sub-problems.
+
+Every recursive function has:
+
+A base case: which stops the recursion.
+
+A recursive case: which calls the function again with a smaller input.
+
+
+
+
+Step 2: Setup the Forecasting Problem
+Problem Statement:
+We want to predict the future value of an investment using:
+
+Initial amount (e.g., ₹10,000)
+
+Annual growth rate (e.g., 8%)
+
+Number of years (e.g., 5 years)
+
+The formula to calculate the future value each year is:
+
+futureValue = currentValue × (1 + growthRate / 100)
+We apply this formula repeatedly for each year using recursion.
+
+
+
+
+Step 3: Recursive Implementation
+Method: calculateFutureValue(double amount, double rate, int years)
+Base Case:
+
+if (years == 0) return amount;
+If the number of years is zero, we return the current amount. No more growth is applied.
+
+Recursive Case:
+
+double updatedAmount = amount * (1 + rate / 100);
+return calculateFutureValue(updatedAmount, rate, years - 1);
+The amount grows for the current year.
+
+Then the method calls itself again for the next year (years - 1) with the updated amount.
+
+Example Execution Flow:
+
+Year 5 → ₹10,000 × 1.08 = ₹10,800 → call again for year 4
+
+Year 4 → ₹10,800 × 1.08 = ₹11,664 → call again for year 3
+
+...
+
+Continues until year 0
+
+
+
+
+Step 4: Time Complexity Analysis
+Time Complexity:
+The function runs once per year.
+
+So, time complexity is:
+
+𝑂(𝑛)​
+ 
+where n is the number of years.
+
+Space Complexity:
+Because of recursive calls being placed on the stack, space complexity is also O(n) due to call stack usage.
+
+
+
+
+Step 5: Optimizing Recursion (Optional)
+Problem:
+If the number of years is very large (e.g., 10,000), recursive calls can overflow the call stack.
+
+Solutions:
+1. Use Iteration Instead: Convert to a for loop to avoid recursion.
+
+2. Use Memoization (if overlapping sub-problems): Not needed here since each call is unique.
+
+3. Tail Recursion: In some languages, tail recursion can be optimized by the compiler — but Java does not guarantee this.
+
