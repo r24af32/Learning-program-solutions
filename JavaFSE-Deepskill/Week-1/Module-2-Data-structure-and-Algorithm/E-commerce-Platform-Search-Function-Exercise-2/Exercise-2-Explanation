@@ -1,0 +1,86 @@
+Exercise 2: E-commerce Platform Search Function – Step-by-Step Explanation
+
+
+Step 1: Understand Asymptotic Notation
+What is Big O Notation?
+Big O notation is used to describe the time complexity of an algorithm — how fast or slow it runs depending on the size of the input.
+
+It helps in evaluating performance and choosing the best algorithm.
+
+Best, Average, and Worst Cases:
+Case	                Linear Search                      	        Binary Search
+Best Case	        Product found at index 0 (O(1))	           Product found in the middle (O(1))
+Average Case	    Product in middle of array (O(n/2))	       Logarithmic steps (O(log n))
+Worst Case	      Product at end or not present (O(n))       Not found, all splits tried (O(log n))
+
+
+
+
+
+Step 2: Setup the Environment
+A class named Product was created with the following attributes:
+
+productId: a unique number for the product
+
+productName: name of the product
+
+category: category like Electronics, Clothing, etc.
+
+This structure allows easy access and filtering/search based on name.
+
+
+
+
+
+Step 3: Implement Linear and Binary Search
+Linear Search:
+A simple search that checks each product one by one in the array.
+
+Returns the product if a match is found.
+
+for (Product product : products) {
+    if (product.productName.equalsIgnoreCase(targetName)) {
+        return product;
+    }
+}
+Works on unsorted arrays.
+Time complexity: O(n)
+
+Binary Search:
+A faster search method that only works on sorted arrays.
+
+Divides the array in half repeatedly to find the product.
+
+Steps:
+
+Sort the array by product name.
+
+Use a while loop with left, right, and mid pointers.
+
+Compare the target with the mid element and move search window accordingly.
+
+while (left <= right) {
+    int mid = (left + right) / 2;
+    int comparison = targetName.compareToIgnoreCase(products[mid].productName);
+
+    if (comparison == 0) return products[mid];
+    else if (comparison < 0) right = mid - 1;
+    else left = mid + 1;
+}
+Requires sorting before searching.
+Time complexity: O(log n)
+
+
+
+
+Step 4: Analyze and Compare
+Linear Search:
+Pros: Simple, works without sorting
+
+Cons: Slower for large arrays
+
+Binary Search:
+Pros: Much faster on large datasets (logarithmic time)
+
+Cons: Requires sorting first, only works on sorted data
+
