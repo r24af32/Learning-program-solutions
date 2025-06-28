@@ -1,0 +1,77 @@
+-- Create the table
+CREATE TABLE customers (
+    customer_id NUMBER,
+    age NUMBER,
+    loan_interest NUMBER,
+    balance NUMBER,
+    IsVIP VARCHAR2(5)
+);
+
+-- Insert sample data
+INSERT INTO customers VALUES (101, 65, 12.5, 8000, 'FALSE');
+INSERT INTO customers VALUES (102, 58, 13.0, 15000, 'FALSE');
+INSERT INTO customers VALUES (103, 70, 14.0, 5000, 'FALSE');
+COMMIT;
+
+-- For scenario-1
+BEGIN
+    FOR cust IN (SELECT customer_id, age, loan_interest FROM customers) LOOP
+        IF cust.age > 60 THEN
+            UPDATE customers
+            SET loan_interest = loan_interest - 1
+            WHERE customer_id = cust.customer_id;
+        END IF;
+    END LOOP;
+    COMMIT;
+END;
+
+SELECT * FROM customers;
+
+
+-- For Scenario-2
+BEGIN
+    FOR cust IN (SELECT customer_id, balance FROM customers) LOOP
+        IF cust.balance > 10000 THEN
+            UPDATE customers
+            SET IsVIP = 'TRUE'
+            WHERE customer_id = cust.customer_id;
+        END IF;
+    END LOOP;
+    COMMIT;
+END;
+
+SELECT customer_id, balance, IsVIP FROM customers;
+
+
+
+
+CREATE TABLE loans (
+    loan_id NUMBER,
+    customer_id NUMBER,
+    due_date DATE
+);
+-- Assuming today is 18-JUN-2025
+INSERT INTO loans VALUES (201, 101, TO_DATE('10-JUL-2025', 'DD-MON-YYYY'));
+INSERT INTO loans VALUES (202, 102, TO_DATE('03-JUL-2025', 'DD-MON-YYYY'));
+INSERT INTO loans VALUES (203, 103, TO_DATE('25-AUG-2025', 'DD-MON-YYYY')); -- >30 days
+INSERT INTO loans VALUES (204, 104, TO_DATE('20-JUN-2025', 'DD-MON-YYYY')); -- within 2 days
+COMMIT;
+
+
+-- For Scenario-3
+BEGIN
+    FOR loan_rec IN (
+        SELECT customer_id, loan_id, due_date
+        FROM loans
+        WHERE due_date <= SYSDATE + 30
+    ) LOOP
+        DBMS_OUTPUT.PUT_LINE('Reminder: Loan ' || loan_rec.loan_id ||
+                             ' for Customer ' || loan_rec.customer_id ||
+                             ' is due on ' || TO_CHAR(loan_rec.due_date, 'DD-MON-YYYY'));
+    END LOOP;
+END;
+
+
+
+
+
