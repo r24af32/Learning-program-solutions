@@ -1,0 +1,71 @@
+CREATE TABLE savings_accounts (
+account_id NUMBER,
+customer_id NUMBER,
+balance NUMBER
+);
+
+-- For scenario-1
+CREATE OR REPLACE PROCEDURE ProcessMonthlyInterest AS
+BEGIN
+    UPDATE savings_accounts
+    SET balance = balance + (balance * 0.01);
+
+    COMMIT;
+END;
+
+CREATE TABLE employees (
+    emp_id NUMBER,
+    emp_name VARCHAR2(50),
+    department_id NUMBER,
+    salary NUMBER
+);
+
+-- For scenario-2
+CREATE OR REPLACE PROCEDURE UpdateEmployeeBonus (
+    dept_id IN NUMBER,
+    bonus_percent IN NUMBER
+) AS
+BEGIN
+    UPDATE employees
+    SET salary = salary + (salary * bonus_percent / 100)
+    WHERE department_id = dept_id;
+
+    COMMIT;
+END;
+
+CREATE TABLE accounts (
+    account_id NUMBER PRIMARY KEY,
+    customer_id NUMBER,
+    balance NUMBER
+);
+
+-- For scenario-3
+CREATE OR REPLACE PROCEDURE TransferFunds (
+    source_account IN NUMBER,
+    target_account IN NUMBER,
+    amount IN NUMBER
+) AS
+    src_balance NUMBER;
+BEGIN
+    -- Get current balance of source account
+    SELECT balance INTO src_balance
+    FROM accounts
+    WHERE account_id = source_account;
+
+    -- Check if sufficient funds exist
+    IF src_balance >= amount THEN
+        -- Deduct from source
+        UPDATE accounts
+        SET balance = balance - amount
+        WHERE account_id = source_account;
+
+        -- Add to target
+        UPDATE accounts
+        SET balance = balance + amount
+        WHERE account_id = target_account;
+
+        COMMIT;
+    ELSE
+        RAISE_APPLICATION_ERROR(-20001, 'Insufficient funds in source account.');
+    END IF;
+END;
