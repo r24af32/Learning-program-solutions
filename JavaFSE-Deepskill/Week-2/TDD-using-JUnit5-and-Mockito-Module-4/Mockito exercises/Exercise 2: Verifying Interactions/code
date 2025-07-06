@@ -1,0 +1,66 @@
+//ExternalApi.java
+package com.example.test;
+
+public interface ExternalApi {
+    String getData();
+}
+
+
+//Myservice.java
+package com.example.test;
+
+public class MyService {
+    private ExternalApi api;
+
+    public MyService(ExternalApi api) {
+        this.api = api;
+    }
+
+    public String fetchData() {
+        return api.getData();
+    }
+}
+
+
+//MyServiceTest.java
+package com.example.test;
+
+import static org.mockito.Mockito.*;
+
+import org.junit.Test;
+import org.mockito.Mockito;
+
+public class MyServiceTest {
+
+    @Test
+    public void testVerifyInteraction() {
+        // Step 1: Create mock
+        ExternalApi mockApi = Mockito.mock(ExternalApi.class);
+
+        // Step 2: Call method with mock
+        MyService service = new MyService(mockApi);
+        service.fetchData();
+
+        // Step 3: Verify interaction
+        verify(mockApi).getData();
+    }
+}
+
+
+//pom.xml
+<dependencies>
+    <!-- JUnit 4 -->
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- Mockito -->
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>5.11.0</version>
+    </dependency>
+</dependencies>
